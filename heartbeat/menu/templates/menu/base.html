@@ -11,12 +11,15 @@
 <body>
     <header>
         {% block menu %}
+        {% for item in object_list %}
+            <li>{{ item.title }}</li>
+        {% endfor %}
         {% endblock %}
     </header>
     <div class="main">
     {% block content %}
     {% endblock %}
     </div>
-    <footer></footer>
+    <footer><h1>{% now "Y" %}</h1></footer>
 </body>
 </html>
