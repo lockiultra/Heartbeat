@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
-from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic import CreateView
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login
+from django.urls import reverse_lazy
 
 # Create your views here.
 
 class IndexView(TemplateView):
     template_name = 'menu/index.html'
+
+class RegistrationView(CreateView):
+    template_name = 'menu/registration.html'
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
 
 def login_view(request):
     if request.method == 'POST':
@@ -21,3 +28,4 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, 'menu/login.html', {'form': form})
+
