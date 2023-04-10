@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'menu.apps.MenuConfig'
+    'menu.apps.MenuConfig',
+    'trauma.apps.TraumaConfig'
 ]
 
 MIDDLEWARE = [
