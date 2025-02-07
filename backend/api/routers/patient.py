@@ -27,5 +27,5 @@ async def update_patient(db=Depends(get_db), update_scheme: PatientUpdate = Depe
 
 
 @patient_router.delete('/{id:int}')
-async def delete_patient(id: int, db=Depends(get_db)):
-    return await PatientRepository.delete(db, id)
+async def delete_patient(delete_scheme: PatientDelete = Depends(), db=Depends(get_db)):
+    return await PatientRepository.delete(db, delete_scheme)
