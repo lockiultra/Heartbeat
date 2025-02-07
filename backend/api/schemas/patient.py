@@ -15,7 +15,7 @@ class PatientCreate(UserCreate, PatientBase):
 
 
 class PatientUpdate(UserUpdate):
-    insurance: str | None = Field(...)
+    insurance: str | None = Field(None)
 
     class Config:
         from_attributes = True

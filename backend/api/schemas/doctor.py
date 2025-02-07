@@ -14,7 +14,7 @@ class DoctorCreate(UserCreate, DoctorBase):
 
 
 class DoctorUpdate(UserUpdate):
-    speciality: str | None = Field(...)
+    speciality: str | None = Field(None)
 
 
 class DoctorDelete(UserDelete):

@@ -22,11 +22,11 @@ class UserCreate(UserBase):
 
 class UserUpdate(BaseModel):
     id: int = Field(...)
-    first_name: str | None = Field(..., description='Имя')
-    last_name: str | None = Field(..., description='Фамилия')
-    middle_name: str | None = Field(..., description='Отчество')
-    username: str | None = Field(...)
-    password: str | None = Field(...)
+    first_name: str | None = Field(None, description='Имя')
+    last_name: str | None = Field(None, description='Фамилия')
+    middle_name: str | None = Field(None, description='Отчество')
+    username: str | None = Field(None)
+    password: str | None = Field(None)
 
     class Config:
         from_attributes = True
