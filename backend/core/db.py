@@ -4,6 +4,7 @@ from typing import AsyncGenerator
 from backend.api.models.user import User # noqa
 from backend.api.models.patient import Patient # noqa
 from backend.api.models.base import Base # noqa
+from backend.api.models.appointment import Appointment # noqa
 
 
 engine = create_async_engine(settings.DATABASE_URL)
