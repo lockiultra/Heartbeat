@@ -1,4 +1,5 @@
-from backend.api.schemas.user import *
+from backend.api.schemas.user import UserBase, UserGet, UserCreate, UserUpdate, UserDelete
+from pydantic import Field
 
 
 class DoctorBase(UserBase):
