@@ -22,5 +22,5 @@ class DoctorRepository(BaseRepository):
         return await super().update(db, orm_model, update_scheme)
 
     @classmethod
-    async def delete(cls, db: AsyncSession, delete_scheme: DoctorDelete, orm_model: Doctor = Doctor):
+    async def delete(cls, db: AsyncSession, delete_scheme: DoctorDelete, orm_model: Doctor = Doctor) -> Doctor:
         return await super().delete(db, orm_model, delete_scheme)
