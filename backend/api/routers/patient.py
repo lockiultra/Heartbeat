@@ -9,12 +9,12 @@ patient_router = APIRouter()
 
 
 @patient_router.get('/')
-async def get_all_patients(db: AsyncSession = Depends(get_db)) -> list[Patient]:
+async def get_all_patients(db: AsyncSession = Depends(get_db)):
     return await PatientRepository.get_all(db=db)
 
 
 @patient_router.get('/{patient_id:int}')
-async def get_patient_by_id(patient_id: int, db=Depends(get_db)) -> Patient:
+async def get_patient_by_id(patient_id: int, db=Depends(get_db)):
     return await PatientRepository.get_by_id(db=db, id=patient_id)
 
 
