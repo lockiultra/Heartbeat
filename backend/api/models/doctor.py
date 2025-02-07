@@ -1,6 +1,6 @@
 from backend.api.models.user import User
 from enum import Enum
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Enum as SAEnum
 
 
@@ -21,3 +21,6 @@ class Doctor(User):
     __abstract__ = False
 
     speciality: Mapped[DOCTOR_SPEC] = mapped_column(SAEnum(DOCTOR_SPEC), nullable=False)
+
+    appointments: Mapped[list['Appointment']] = relationship('Appointment', back_populates='doctor')
+
