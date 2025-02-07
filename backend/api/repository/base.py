@@ -37,9 +37,10 @@ class BaseRepository:
         data = update_scheme.model_dump()
         model = await cls.get_by_id(db, update_scheme.id, orm_model)
         for key, value in data.items():
-            if key == 'password' and value:
-                value = get_password_hash(value)
-            setattr(model, key, value)
+            if value:
+                if key == 'password':
+                    value = get_password_hash(value)
+                setattr(model, key, value)
         db.add(model)
         await db.commit()
         await db.refresh(model)
