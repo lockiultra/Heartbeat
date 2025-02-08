@@ -1,164 +1,130 @@
-# Medical Management System API
 
-This project is a backend API for managing medical data, including patients and doctors. It is built using FastAPI, SQLAlchemy, and Pydantic, and is designed to be asynchronous for better performance.
+---
 
-## Table of Contents
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Models](#models)
-- [Schemas](#schemas)
-- [Repository Pattern](#repository-pattern)
-- [Authentication](#authentication)
-- [Database](#database)
-- [Settings](#settings)
-- [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
+# Heartbeat API
 
-## Features
-- **CRUD Operations**: Create, Read, Update, and Delete operations for patients and doctors.
-- **Asynchronous**: Built using FastAPI and SQLAlchemy for asynchronous database operations.
-- **Repository Pattern**: Clean separation of concerns with a repository pattern for database interactions.
-- **Pydantic Schemas**: Data validation and serialization using Pydantic models.
-- **Authentication**: Password hashing using `bcrypt`.
+**Описание:**  
+Этот pet-проект представляет собой бекенд-сервис, реализованный с использованием FastAPI и SQLAlchemy, для управления записями на приёмы в медицинском учреждении. В системе реализованы модели пользователей (врачи и пациенты), а также модель встреч (Appointment) с двусторонними связями к врачам и пациентам. Проект организован по принципу разделения ответственности с использованием репозиториев, схем (Pydantic) и роутеров.
 
-## Installation
+---
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/yourusername/medical-management-system.git
-   cd medical-management-system
-   ```
+## Функциональность
 
-2. **Set up a virtual environment**:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
+- **Управление пользователями:**
+   - Регистрация и управление данными пациентов и врачей.
+   - Хранение и валидация данных через Pydantic-схемы.
 
-3. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+- **Записи на приёмы (Appointment):**
+   - Создание, обновление, удаление и получение информации о записях.
+   - Возможность фильтрации встреч по врачу или пациенту.
+   - Двусторонние связи (relationship) между встречами, врачами и пациентами.
 
-4. **Set up environment variables**:
-   Create a `.env` file in the root directory with the following content:
-   ```env
-   DATABASE_URL=postgresql+asyncpg://user:password@localhost/dbname
-   TEST_DATABASE_URL=postgresql+asyncpg://user:password@localhost/testdb
-   ALGORITHM=HS256
-   ```
+- **Архитектура проекта:**
+   - Использование паттерна Repository для работы с базой данных.
+   - Чёткое разделение логики (модели, схемы, роутеры, репозитории, настройки и зависимости).
 
-5. **Run the application**:
-   ```bash
-   uvicorn backend.api.main:app --reload
-   ```
+---
 
-## Usage
+## Структура проекта
 
-The API will be available at `http://127.0.0.1:8000/`. You can interact with the API using tools like `curl`, `Postman`, or directly through the Swagger UI at `http://127.0.0.1:8000/docs`.
+```
+backend/
+├── core/
+│   ├── auth.py         # Функции для хэширования паролей
+│   ├── db.py           # Настройка подключения к базе данных и создание таблиц
+│   └── settings.py     # Настройки проекта (чтение переменных окружения)
+├── tests/              # Тесты проекта (на данный момент пустой)
+├── api/
+│   ├── __init__.py
+│   ├── main.py         # Точка входа приложения FastAPI
+│   ├── routers/        # Маршруты API (patient, doctor, appointment)
+│   │   ├── __init__.py
+│   │   ├── patient.py
+│   │   ├── doctor.py
+│   │   └── appointment.py
+│   ├── repository/     # Репозитории для работы с базой данных
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── patient.py
+│   │   ├── doctor.py
+│   │   └── appointment.py
+│   ├── dependencies/   # Зависимости для роутеров (на данный момент пустой)
+│   ├── models/         # ORM-модели (User, Patient, Doctor, Appointment, Base)
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── user.py
+│   │   ├── patient.py
+│   │   ├── doctor.py
+│   │   └── appointment.py
+│   └── schemas/        # Pydantic-схемы для валидации данных API
+│       ├── __init__.py
+│       ├── user.py
+│       ├── patient.py
+│       ├── doctor.py
+│       └── appointment.py
+```
 
-## API Endpoints
+---
 
-### Patients
-- **GET** `/patient/` - Get all patients.
-- **GET** `/patient/{id}` - Get a patient by ID.
-- **POST** `/patient/` - Create a new patient.
-- **PUT** `/patient/` - Update a patient.
-- **DELETE** `/patient/{id}` - Delete a patient.
+## Установка и запуск
 
-### Doctors
-- **GET** `/doctor/` - Get all doctors.
-- **GET** `/doctor/{id}` - Get a doctor by ID.
-- **POST** `/doctor/` - Create a new doctor.
-- **PUT** `/doctor/` - Update a doctor.
-- **DELETE** `/doctor/` - Delete a doctor.
+### Требования
 
-## Models
+- Python 3.10 или выше
+- Установленные зависимости (указаны в файле `requirements.txt`)
+- База данных (например, PostgreSQL, SQLite и т.п.)  
+  **Пример переменных окружения (.env):**
+  ```
+  DATABASE_URL=postgresql+asyncpg://user:password@localhost/dbname
+  TEST_DATABASE_URL=postgresql+asyncpg://user:password@localhost/test_dbname
+  ALGORITHM=HS256
+  ```
 
-### User
-- **id**: `int` - Primary key.
-- **first_name**: `str` - First name of the user.
-- **last_name**: `str` - Last name of the user.
-- **middle_name**: `str` - Middle name of the user (optional).
-- **username**: `str` - Unique username.
-- **password**: `str` - Hashed password.
+### Установка зависимостей
 
-### Patient
-- Inherits from `User`.
-- **insurance**: `str` - Insurance information.
+```bash
+python -m venv venv
+source venv/bin/activate  # для Linux/macOS
 
-### Doctor
-- Inherits from `User`.
-- **speciality**: `DOCTOR_SPEC` - Speciality of the doctor.
+pip install -r requirements.txt
+```
 
-### Appointment
-- **TODO**: Define appointment model.
+### Запуск приложения
 
-## Schemas
+```bash
+uvicorn backend.api.main:app --reload
+```
 
-### User
-- **UserBase**: Base schema for user.
-- **UserGet**: Schema for retrieving user data.
-- **UserCreate**: Schema for creating a new user.
-- **UserUpdate**: Schema for updating user data.
-- **UserDelete**: Schema for deleting a user.
+После запуска сервер будет доступен по адресу [http://127.0.0.1:8000](http://127.0.0.1:8000).  
+Эндпоинт `/` возвращает простой "Heartbeat".
 
-### Patient
-- **PatientBase**: Base schema for patient.
-- **PatientGet**: Schema for retrieving patient data.
-- **PatientCreate**: Schema for creating a new patient.
-- **PatientUpdate**: Schema for updating patient data.
-- **PatientDelete**: Schema for deleting a patient.
+---
 
-### Doctor
-- **DoctorBase**: Base schema for doctor.
-- **DoctorGet**: Schema for retrieving doctor data.
-- **DoctorCreate**: Schema for creating a new doctor.
-- **DoctorUpdate**: Schema for updating doctor data.
-- **DoctorDelete**: Schema for deleting a doctor.
+## Описание API
 
-## Repository Pattern
+### Эндпоинты пациентов
 
-The repository pattern is used to abstract the database layer. Each entity (e.g., Patient, Doctor) has its own repository class that inherits from `BaseRepository`.
+- **GET /patient/** – Получить список всех пациентов.
+- **GET /patient/{patient_id:int}** – Получить данные конкретного пациента по ID.
+- **POST /patient/** – Создать нового пациента.
+- **PUT /patient/** – Обновить данные пациента.
+- **DELETE /patient/** – Удалить пациента.
 
-### BaseRepository
-- **get_all**: Retrieve all records.
-- **get_by_id**: Retrieve a record by ID.
-- **create**: Create a new record.
-- **update**: Update an existing record.
-- **delete**: Delete a record.
+### Эндпоинты врачей
 
-### PatientRepository
-- Inherits from `BaseRepository`.
-- Implements CRUD operations for patients.
+- **GET /doctor/** – Получить список всех врачей.
+- **GET /doctor/{doctor_id:int}** – Получить данные конкретного врача по ID.
+- **POST /doctor/** – Создать нового врача.
+- **PUT /doctor/** – Обновить данные врача.
+- **DELETE /doctor/** – Удалить врача.
 
-### DoctorRepository
-- Inherits from `BaseRepository`.
-- Implements CRUD operations for doctors.
+### Эндпоинты встреч (Appointment)
 
-## Authentication
+- **GET /appointment/by_doctor/{doctor_id:int}** – Получить список встреч по ID врача.
+- **GET /appointment/by_patient/{patient_id:int}** – Получить список встреч по ID пациента.
+- **GET /appointment/by_id/{appointment_id:int}** – Получить данные конкретной встречи по ID.
+- **POST /appointment/** – Создать новую встречу.
+- **PUT /appointment/** – Обновить данные встречи.
+- **DELETE /appointment/** – Удалить встречу.
 
-Password hashing is done using `bcrypt` via the `passlib` library. The `get_password_hash` function is used to hash passwords before storing them in the database.
-
-## Database
-
-The database is managed using SQLAlchemy with an asynchronous engine. The `create_tables` function is used to create all necessary tables in the database.
-
-## Settings
-
-The `Settings` class is used to manage environment variables, such as database URLs and algorithm settings. These settings are loaded from a `.env` file.
-
-## Testing
-
-The `backend/tests/` directory is reserved for unit and integration tests. Currently, no tests are implemented.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+---
