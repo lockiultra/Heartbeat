@@ -19,7 +19,7 @@ async def get_patient_by_id(patient_id: int, db=Depends(get_db)):
 
 
 @patient_router.post('/')
-async def create_patient(db=Depends(get_db), create_scheme: PatientCreate = Depends()):
+async def create_patient(create_scheme: PatientCreate, db=Depends(get_db)):
     return await PatientRepository.create(db=db, create_scheme=create_scheme)
 
 
