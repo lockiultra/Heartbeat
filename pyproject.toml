@@ -8,7 +8,10 @@ version = "0.1.0"
 description = "Initial bootstrap for the AI Copilot for doctors project."
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "fastapi>=0.139.0",
+    "uvicorn>=0.51.0",
+]
 
 [tool.setuptools.packages.find]
 where = ["backend/src"]
@@ -16,6 +19,7 @@ include = ["app*"]
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28.1",
     "mypy>=2.2.0",
     "pre-commit>=4.6.0",
     "pytest>=9.1.1",
