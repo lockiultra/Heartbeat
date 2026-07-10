@@ -18,6 +18,7 @@ coverage/
 htmlcov/
 .env
 .env.*
+!.env.example
 *.db
 dist/
 build/
