@@ -1,0 +1,45 @@
+repos:
+  - repo: local
+    hooks:
+      - id: end-of-file-fixer
+        name: end-of-file-fixer
+        entry: python3 scripts/pre_commit/end_of_file_fixer.py
+        language: system
+        files: \.(py|toml|ya?ml|md|txt|ini|cfg)$
+
+      - id: trailing-whitespace
+        name: trailing-whitespace
+        entry: python3 scripts/pre_commit/trailing_whitespace.py
+        language: system
+        files: \.(py|toml|ya?ml|md|txt|ini|cfg)$
+
+      - id: check-yaml
+        name: check-yaml
+        entry: ruby scripts/pre_commit/check_yaml.rb
+        language: system
+        files: \.(ya?ml)$
+
+      - id: check-toml
+        name: check-toml
+        entry: python3 scripts/pre_commit/check_toml.py
+        language: system
+        files: \.toml$
+
+      - id: ruff-format
+        name: ruff format
+        entry: ruff format --check
+        language: system
+        files: ^backend/
+
+      - id: ruff-check
+        name: ruff check
+        entry: ruff check
+        language: system
+        files: ^backend/
+
+      - id: mypy
+        name: mypy
+        entry: mypy --config-file pyproject.toml backend/src
+        language: system
+        pass_filenames: false
+        files: ^backend/src/
